@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCare - Student Mental Health Support</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .user-type-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .user-type-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            min-width: 120px;
+        }
+
+        .user-type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .user-type-btn.active {
+            background: linear-gradient(135deg, #4c63d2, #5a4ba2);
+            transform: scale(1.05);
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .dashboard {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            margin-bottom: 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .dashboard-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #f7fafc;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            border: 2px solid #e53e3e;
+            border-radius: 8px;
+            background: transparent;
+            color: #e53e3e;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .resource-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .resource-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateX(5px);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #718096;
+        }
+
+        .btn-danger {
+            background: #e53e3e;
+        }
+
+        .form-inline {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-inline input, .form-inline select {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .appointment-card {
+            background: linear-gradient(135deg, #fff5f5, #fed7d7);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .support-group-card {
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #38a169;
+        }
+
+        .forum-post {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .close:hover {
+            color: #e53e3e;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .user-type-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .dashboard-nav {
+                justify-content: center;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-inline {
+                flex-direction: column;
+            }
+            
+            .form-inline input, .form-inline select {
+                min-width: auto;
+            }
+        }
+
+        .emergency-banner {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 2px solid #e53e3e;
+        }
+
+        .emergency-banner h3 {
+            color: #c53030;
+            margin-bottom: 10px;
+        }
+
+        .emergency-contacts {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .emergency-contact {
+            background: #e53e3e;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-contact:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🧠 MindCare</h1>
+            <p>Comprehensive Mental Health Support for Students</p>
+        </div>
+
+        <!-- Emergency Banner -->
+        <div class="emergency-banner">
+            <h3>🚨 Crisis Support Available 24/7</h3>
+            <div class="emergency-contacts">
+                <a href="tel:988" class="emergency-contact">Crisis Hotline: 988</a>
+                <a href="tel:911" class="emergency-contact">Emergency: 911</a>
+                <a href="#" class="emergency-contact" onclick="openCrisisChat()">Live Chat Support</a>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="login-section">
+            <h2>Welcome to Your Mental Health Journey</h2>
+            <p style="margin-bottom: 20px;">Sign in to access personalized mental health resources and support</p>
+            
+            <div class="user-type-buttons">
+                <button class="user-type-btn active" onclick="selectUserType('student')">Student Portal</button>
+                <button class="user-type-btn" onclick="selectUserType('admin')">Admin Portal</button>
+            </div>
+
+            <form class="login-form" onsubmit="login(event)">
+                <div class="form-group">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="login-btn">Sign In Securely</button>
+                <p style="margin-top: 15px; font-size: 14px; color: #718096;">
+                    New user? <a href="#" onclick="showRegistration()" style="color: #667eea;">Create account</a> | 
+                    <a href="#" onclick="showPasswordReset()" style="color: #667eea;">Forgot password?</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="studentDashboard" class="dashboard">
+            <div class="dashboard-header">
+                <h2>Welcome back, <span id="studentName">Student</span>! 🌟</h2>
+                <div class="dashboard-nav">
+                    <button class="nav-btn active" onclick="showSection('resources')">Resources</button>
+                    <button class="nav-btn" onclick="showSection('appointments')">Therapy</button>
+                    <button class="nav-btn" onclick="showSection('support-groups')">Support Groups</button>
+                    <button class="nav-btn" onclick="showSection('forums')">Forums</button>
+                    <button class="nav-btn" onclick="showSection('self-help')">Self-Help Tools</button>
+                    <button class="logout-btn" onclick="logout()">Sign Out</button>
+                </div>
+            </div>
+
+            <!-- Resources Section -->
+            <div id="resources" class="section active">
+                <h3>Mental Health Resources</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h3>📚 Educational Resources</h3>
+                        <div class="resource-item">
+                            <h4>Understanding Anxiety</h4>
+                            <p>Learn about anxiety symptoms, triggers, and coping strategies.</p>
+                            <button class="btn" onclick="viewResource('anxiety-guide')">Read Guide</button>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Depression Awareness</h4>
+                            <p>Comprehensive guide to recognizing and managing depression.</p>
+                            <button class="btn" onclick="viewResource('depression-guide')">Read Guide</button>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Stress Management</h4>
+                            <p>Practical techniques for managing academic and personal stress.</p>
+                            <button class="btn" onclick="viewResource('stress-guide')">Read Guide</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>🎥 Video Resources</h3>
+                        <div class="resource-item">
+                            <h4>Mindfulness Meditation</h4>
+                            <p>Guided meditation sessions for beginners and advanced practitioners.</p>
+                            <button class="btn" onclick="playVideo('mindfulness')">Watch Video</button>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Breathing Exercises</h4>
+                            <p>Learn effective breathing techniques for anxiety relief.</p>
+                            <button class="btn" onclick="playVideo('breathing')">Watch Video</button>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Sleep Hygiene</h4>
+                            <p>Tips and techniques for better sleep and mental health.</p>
+                            <button class="btn" onclick="playVideo('sleep')">Watch Video</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📞 Quick Access</h3>
+                        <div class="resource-item">
+                            <h4>Crisis Hotlines</h4>
+                            <p>Immediate support when you need it most.</p>
+                            <button class="btn btn-danger" onclick="showCrisisResources()">Access Now</button>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Campus Resources</h4>
+                            <p>On-campus mental health services and locations.</p>
+                            <button class="btn" onclick="showCampusResources()">View Resources</button>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Peer Support Network</h4>
+                            <p>Connect with trained peer counselors.</p>
+                            <button class="btn" onclick="connectPeerSupport()">Connect Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Section -->
+            <div id="appointments" class="section">
+                <h3>Therapy Sessions & Counseling</h3>
+                <div class="form-inline">
+                    <select id="therapistSelect">
+                        <option>Select Therapist</option>
+                        <option>Dr. Sarah Johnson - Anxiety Specialist</option>
+                        <option>Dr. Michael Chen - Depression & Mood Disorders</option>
+                        <option>Dr. Emily Rodriguez - Trauma & PTSD</option>
+                        <option>Dr. David Kim - Academic Stress & Performance</option>
+                    </select>
+                    <input type="date" id="appointmentDate" min="">
+                    <select id="appointmentTime">
+                        <option>Select Time</option>
+                        <option>9:00 AM</option>
+                        <option>10:00 AM</option>
+                        <option>11:00 AM</option>
+                        <option>1:00 PM</option>
+                        <option>2:00 PM</option>
+                        <option>3:00 PM</option>
+                        <option>4:00 PM</option>
+                    </select>
+                    <button class="btn" onclick="scheduleAppointment()">Schedule Session</button>
+                </div>
+
+                <h4>Your Upcoming Sessions</h4>
+                <div id="appointmentsList">
+                    <div class="appointment-card">
+                        <h4>Dr. Sarah Johnson - Anxiety Specialist</h4>
+                        <p>📅 Tomorrow, 2:00 PM | 📍 Virtual Session</p>
+                        <p>Focus: Coping strategies for test anxiety</p>
+                        <button class="btn">Join Session</button>
+                        <button class="btn btn-secondary">Reschedule</button>
+                        <button class="btn btn-danger">Cancel</button>
+                    </div>
+                    <div class="appointment-card">
+                        <h4>Dr. Michael Chen - Depression & Mood</h4>
+                        <p>📅 Friday, 10:00 AM | 📍 Campus Health Center</p>
+                        <p>Focus: Weekly check-in and progress review</p>
+                        <button class="btn btn-secondary">Reschedule</button>
+                        <button class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+
+                <h4>Session History & Progress</h4>
+                <div class="card">
+                    <h3>Progress Tracking</h3>
+                    <p>You've completed 8 therapy sessions this semester</p>
+                    <p>Overall mood improvement: 65% positive trend</p>
+                    <button class="btn" onclick="viewProgressReport()">View Detailed Report</button>
+                </div>
+            </div>
+
+            <!-- Support Groups Section -->
+            <div id="support-groups" class="section">
+                <h3>Support Groups & Community</h3>
+                <div class="grid">
+                    <div class="support-group-card">
+                        <h4>Anxiety Support Circle</h4>
+                        <p>📅 Mondays & Wednesdays, 6:00 PM</p>
+                        <p>👥 12 members | 🏠 Virtual & In-person options</p>
+                        <p>A safe space to share experiences and coping strategies for anxiety management.</p>
+                        <button class="btn" onclick="joinGroup('anxiety')">Join Group</button>
+                        <button class="btn btn-secondary">Learn More</button>
+                    </div>
+
+                    <div class="support-group-card">
+                        <h4>Depression Recovery Group</h4>
+                        <p>📅 Tuesdays & Thursdays, 7:00 PM</p>
+                        <p>👥 8 members | 🏠 In-person at Student Center</p>
+                        <p>Peer support for students navigating depression and building resilience.</p>
+                        <button class="btn" onclick="joinGroup('depression')">Join Group</button>
+                        <button class="btn btn-secondary">Learn More</button>
+                    </div>
+
+                    <div class="support-group-card">
+                        <h4>Mindfulness & Meditation</h4>
+                        <p>📅 Fridays, 5:00 PM</p>
+                        <p>👥 15 members | 🏠 Campus Wellness Center</p>
+                        <p>Weekly guided meditation and mindfulness practice sessions.</p>
+                        <button class="btn" onclick="joinGroup('mindfulness')">Join Group</button>
+                        <button class="btn btn-secondary">Learn More</button>
+                    </div>
+
+                    <div class="support-group-card">
+                        <h4>Academic Stress Management</h4>
+                        <p>📅 Sundays, 4:00 PM</p>
+                        <p>👥 20 members | 🏠 Virtual</p>
+                        <p>Focus on managing academic pressure and finding work-life balance.</p>
+                        <button class="btn" onclick="joinGroup('academic')">Join Group</button>
+                        <button class="btn btn-secondary">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Forums Section -->
+            <div id="forums" class="section">
+                <h3>Community Forums & Peer Support</h3>
+                <div class="form-inline">
+                    <input type="text" placeholder="Share your thoughts or ask for support..." style="flex: 2;">
+                    <select>
+                        <option>General Support</option>
+                        <option>Anxiety</option>
+                        <option>Depression</option>
+                        <option>Academic Stress</option>
+                        <option>Relationships</option>
+                        <option>Self-Care</option>
+                    </select>
+                    <button class="btn" onclick="createPost()">Post</button>
+                </div>
+
+                <div id="forumPosts">
+                    <div class="forum-post">
+                        <div class="post-header">
+                            <span>Posted by Anonymous | 2 hours ago</span>
+                            <span>💬 8 replies</span>
+                        </div>
+                        <h4>Struggling with test anxiety - any tips?</h4>
+                        <p>I have my midterms coming up and I'm feeling overwhelmed. The anxiety is making it hard to study effectively. Has anyone found techniques that really help?</p>
+                        <button class="btn" onclick="replyToPost()">Reply</button>
+                        <button class="btn btn-secondary">Support (15)</button>
+                    </div>
+
+                    <div class="forum-post">
+                        <div class="post-header">
+                            <span>Posted by Anonymous | 5 hours ago</span>
+                            <span>💬 12 replies</span>
+                        </div>
+                        <h4>Meditation really works!</h4>
+                        <p>Just wanted to share that after 3 weeks of daily meditation, I'm feeling much more centered and calm. Thank you to everyone who recommended it!</p>
+                        <button class="btn" onclick="replyToPost()">Reply</button>
+                        <button class="btn btn-secondary">Support (28)</button>
+                    </div>
+
+                    <div class="forum-post">
+                        <div class="post-header">
+                            <span>Posted by Anonymous | 1 day ago</span>
+                            <span>💬 5 replies</span>
+                        </div>
+                        <h4>Balancing work and studies</h4>
+                        <p>Working part-time while studying is really challenging. Sometimes I feel like I'm falling behind and it's affecting my mental health. Any advice?</p>
+                        <button class="btn" onclick="replyToPost()">Reply</button>
+                        <button class="btn btn-secondary">Support (22)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Self-Help Tools Section -->
+            <div id="self-help" class="section">
+                <h3>Self-Help Tools & Activities</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h3>📊 Mood Tracker</h3>
+                        <p>Track your daily mood and identify patterns</p>
+                        <div style="margin: 15px 0;">
+                            <label>How are you feeling today?</label>
+                            <div style="display: flex; gap: 10px; margin: 10px 0;">
+                                <button class="btn" onclick="recordMood('excellent')">😄 Excellent</button>
+                                <button class="btn" onclick="recordMood('good')">🙂 Good</button>
+                                <button class="btn" onclick="recordMood('okay')">😐 Okay</button>
+                                <button class="btn" onclick="recordMood('poor')">😔 Poor</button>
+                                <button class="btn" onclick="recordMood('terrible')">😢 Terrible</button>
+                            </div>
+                        </div>
+                        <button class="btn" onclick="viewMoodHistory()">View Mood History</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>✍️ Thought Journal</h3>
+                        <p>Write down your thoughts and feelings</p>
+                        <textarea placeholder="What's on your mind today?" style="width: 100%; height: 100px; margin: 10px 0; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;"></textarea>
+                        <button class="btn" onclick="saveJournalEntry()">Save Entry</button>
+                        <button class="btn btn-secondary" onclick="viewJournalEntries()">View Past Entries</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>🧘 Quick Relaxation</h3>
+                        <p>Immediate stress relief exercises</p>
+                        <button class="btn" onclick="startBreathingExercise()">4-7-8 Breathing</button>
+                        <button class="btn" onclick="startMeditation()">5-Minute Meditation</button>
+                        <button class="btn" onclick="startProgressiveMuscle()">Muscle Relaxation</button>
+                        <button class="btn" onclick="startGuided()">Guided Visualization</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>🎯 Goal Setting</h3>
+                        <p>Set and track your mental health goals</p>
+                        <div class="form-inline">
+                            <input type="text" placeholder="Enter a wellness goal..." style="flex: 2;">
+                            <button class="btn" onclick="addGoal()">Add Goal</button>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <div style="background: #f7fafc; padding: 10px; border-radius: 6px; margin: 5px 0;">
+                                ✅ Practice meditation daily - 5 days streak!
+                            </div>
+                            <div style="background: #f7fafc; padding: 10px; border-radius: 6px; margin: 5px 0;">
+                                🎯 Get 8 hours of sleep - In progress
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="dashboard">
+            <div class="dashboard-header">
+                <h2>Admin Dashboard</h2>
+                <div class="dashboard-nav">
+                    <button class="nav-btn active" onclick="showAdminSection('overview')">Overview</button>
+                    <button class="nav-btn" onclick="showAdminSection('resources-mgmt')">Resources</button>
+                    <button class="nav-btn" onclick="showAdminSection('sessions-mgmt')">Sessions</button>
+                    <button class="nav-btn" onclick="showAdminSection('groups-mgmt')">Support Groups</button>
+                    <button class="nav-btn" onclick="showAdminSection('users-mgmt')">Users</button>
+                    <button class="logout-btn" onclick="logout()">Sign Out</button>
+                </div>
+            </div>
+
+            <!-- Admin Overview -->
+            <div id="overview" class="section active">
+                <h3>Platform Overview</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">1,247</div>
+                        <div>Active Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">156</div>
+                        <div>Sessions This Week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">23</div>
+                        <div>Support Groups</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">89%</div>
+                        <div>Satisfaction Rate</div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Recent Activity</h3>
+                        <div class="resource-item">
+                            <h4>New Support Group Created</h4>
+                            <p>ADHD Support Circle - 12 members joined</p>
+                            <small>2 hours ago</small>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Crisis Intervention</h4>
+                            <p>Emergency support provided to student</p>
+                            <small>4 hours ago</small>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Resource Updated</h4>
+                            <p>Anxiety management guide revised</p>
+                            <small>1 day ago</small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>System Alerts</h3>
+                        <div class="resource-item" style="border-left-color: #e53e3e;">
+                            <h4>High Risk Student Alert</h4>
+                            <p>Student ID: #4521 requires immediate attention</p>
+                            <button class="btn btn-danger">Review Case</button>
+                        </div>
+                        <div class="resource-item" style="border-left-color: #d69e2e;">
+                            <h4>Server Maintenance</h4>
+                            <p>Scheduled maintenance tonight 11 PM - 2 AM</p>
+                            <button class="btn">Acknowledge</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources Management -->
+            <div id="resources-mgmt" class="section">
+                <h3>Resource Management</h3>
+                <div class="form-inline">
+                    <input type="text" placeholder="Resource title..." style="flex: 2;">
+                    <select>
+                        <option>Category</option>
+                        <option>Anxiety</option>
+                        <option>Depression</option>
+                        <option>Stress Management</option>
+                        <option>Self-Care</option>
+                        <option>Crisis Support</option>
+                    </select>
+                    <button class="btn" onclick="addResource()">Add Resource</button>
+                </div>
+
+                <div id="resourcesList">
+                    <div class="resource-item">
+                        <h4>Understanding Anxiety Disorders</h4>
+                        <p>Category: Anxiety | Type: Article | Views: 1,247</p>
+                        <button class="btn" onclick="editResource()">Edit</button>
+                        <button class="btn btn-secondary" onclick="viewAnalytics()">Analytics</button>
+                        <button class="btn btn-danger" onclick="deleteResource()">Delete</button>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Mindfulness Meditation Video Series</h4>
+                        <p>Category: Self-Care | Type: Video | Views: 892</p>
+                        <button class="btn" onclick="editResource()">Edit</button>
+                        <button class="btn btn-secondary" onclick="viewAnalytics()">Analytics</button>
+                        <button class="btn btn-danger" onclick="deleteResource()">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sessions Management -->
+            <div id="sessions-mgmt" class="section">
+                <h3>Counseling Sessions Management</h3>
+                <div class="form-inline">
+                    <select>
+                        <option>All Therapists</option>
+                        <option>Dr. Sarah Johnson</option>
+                        <option>Dr. Michael Chen</option>
+                        <option>Dr. Emily Rodriguez</option>
+                    </select>
+                    <input type="date">
+                    <select>
+                        <option>All Statuses</option>
+                        <option>Scheduled</option>
+                        <option>Completed</option>
+                        <option>Cancelled</option>
+                        <option>No-show</option>
+                    </select>
+                    <button class="btn" onclick="filterSessions()">Filter</button>
+                </div>
+
+                <div id="sessionsList">
+                    <div class="appointment-card">
+                        <h4>Student #1234 - Dr. Sarah Johnson</h4>
+                        <p>📅 Today, 2:00 PM | 📍 Virtual Session</p>
+                        <p>Status: Scheduled | Session #5</p>
+                        <button class="btn" onclick="viewSessionDetails()">View Details</button>
+                        <button class="btn btn-secondary" onclick="rescheduleSession()">Reschedule</button>
+                        <button class="btn btn-danger" onclick="cancelSession()">Cancel</button>
+                    </div>
+                    <div class="appointment-card">
+                        <h4>Student #5678 - Dr. Michael Chen</h4>
+                        <p>📅 Tomorrow, 10:00 AM | 📍 Room 205</p>
+                        <p>Status: Scheduled | Session #2</p>
+                        <button class="btn" onclick="viewSessionDetails()">View Details</button>
+                        <button class="btn btn-secondary" onclick="rescheduleSession()">Reschedule</button>
+                        <button class="btn btn-danger" onclick="cancelSession()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Groups Management -->
+            <div id="groups-mgmt" class="section">
+                <h3>Support Groups Management</h3>
+                <div class="form-inline">
+                    <input type="text" placeholder="Group name..." style="flex: 2;">
+                    <select>
+                        <option>Group Type</option>
+                        <option>Anxiety</option>
+                        <option>Depression</option>
+                        <option>Trauma</option>
+                        <option>General Support</option>
+                    </select>
+                    <button class="btn" onclick="createSupportGroup()">Create Group</button>
+                </div>
+
+                <div id="groupsList">
+                    <div class="support-group-card">
+                        <h4>Anxiety Support Circle</h4>
+                        <p>👥 12 active members | 📅 Mon & Wed, 6:00 PM</p>
+                        <p>Facilitator: Dr. Johnson | Last session: Yesterday</p>
+                        <button class="btn" onclick="manageGroup()">Manage</button>
+                        <button class="btn btn-secondary" onclick="viewGroupAnalytics()">Analytics</button>
+                        <button class="btn btn-danger" onclick="archiveGroup()">Archive</button>
+                    </div>
+                    <div class="support-group-card">
+                        <h4>Depression Recovery Group</h4>
+                        <p>👥 8 active members | 📅 Tue & Thu, 7:00 PM</p>
+                        <p>Facilitator: Dr. Chen | Last session: 2 days ago</p>
+                        <button class="btn" onclick="manageGroup()">Manage</button>
+                        <button class="btn btn-secondary" onclick="viewGroupAnalytics()">Analytics</button>
+                        <button class="btn btn-danger" onclick="archiveGroup()">Archive</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Management -->
+            <div id="users-mgmt" class="section">
+                <h3>User Management</h3>
+                <div class="form-inline">
+                    <input type="text" placeholder="Search users..." style="flex: 2;">
+                    <select>
+                        <option>All Users</option>
+                        <option>Students</option>
+                        <option>Therapists</option>
+                        <option>Administrators</option>
+                    </select>
+                    <select>
+                        <option>All Status</option>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                        <option>Suspended</option>
+                    </select>
+                    <button class="btn" onclick="searchUsers()">Search</button>
+                </div>
+
+                <div id="usersList">
+                    <div class="resource-item">
+                        <h4>John Smith (Student #1234)</h4>
+                        <p>Email: john.smith@university.edu | Status: Active | Last login: Today</p>
+                        <p>Sessions attended: 12 | Groups: Anxiety Support Circle</p>
+                        <button class="btn" onclick="viewUserProfile()">View Profile</button>
+                        <button class="btn btn-secondary" onclick="sendMessage()">Message</button>
+                        <button class="btn btn-danger" onclick="suspendUser()">Suspend</button>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Sarah Johnson (Therapist)</h4>
+                        <p>Email: s.johnson@university.edu | Status: Active | Last login: 2 hours ago</p>
+                        <p>Sessions this week: 18 | Specialization: Anxiety, PTSD</p>
+                        <button class="btn" onclick="viewUserProfile()">View Profile</button>
+                        <button class="btn btn-secondary" onclick="viewSchedule()">Schedule</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div id="resourceModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('resourceModal')">&times;</span>
+                <h3>Resource Details</h3>
+                <div id="resourceContent">
+                    <h4>Understanding Anxiety</h4>
+                    <p>Anxiety is a normal and often healthy emotion. However, when a person regularly feels disproportionate levels of anxiety, it might become a medical disorder...</p>
+                    <h5>Common Symptoms:</h5>
+                    <ul>
+                        <li>Restlessness or feeling keyed up</li>
+                        <li>Being easily fatigued</li>
+                        <li>Difficulty concentrating</li>
+                        <li>Irritability</li>
+                        <li>Sleep disturbances</li>
+                    </ul>
+                    <h5>Coping Strategies:</h5>
+                    <ul>
+                        <li>Deep breathing exercises</li>
+                        <li>Progressive muscle relaxation</li>
+                        <li>Mindfulness meditation</li>
+                        <li>Regular exercise</li>
+                        <li>Adequate sleep</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="videoModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('videoModal')">&times;</span>
+                <h3>Mindfulness Meditation</h3>
+                <div style="text-align: center; padding: 20px;">
+                    <div style="background: #f7fafc; padding: 40px; border-radius: 10px; margin: 20px 0;">
+                        <h4>🧘‍♀️ Guided Meditation Session</h4>
+                        <p>Duration: 10 minutes</p>
+                        <button class="btn" style="padding: 15px 30px; font-size: 18px;">▶️ Start Meditation</button>
+                    </div>
+                    <p>Find a comfortable position and follow along with the guided instructions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="breathingModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('breathingModal')">&times;</span>
+                <h3>4-7-8 Breathing Exercise</h3>
+                <div style="text-align: center; padding: 20px;">
+                    <div id="breathingInstructions" style="background: #f7fafc; padding: 30px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Ready to begin?</h4>
+                        <p>This exercise helps reduce anxiety and promote relaxation.</p>
+                        <div style="font-size: 24px; margin: 20px 0;" id="breathingCounter">Click start when ready</div>
+                        <button class="btn" onclick="startBreathing()" style="padding: 15px 30px; font-size: 18px;">Start Exercise</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUserType = 'student';
+        let currentSection = 'resources';
+        let currentAdminSection = 'overview';
+        let breathingInterval;
+        let breathingPhase = 0;
+
+        // Set minimum date for appointments
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('appointmentDate').min = tomorrow.toISOString().split('T')[0];
+        });
+
+        function selectUserType(type) {
+            currentUserType = type;
+            document.querySelectorAll('.user-type-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simple validation (in real app, this would be server-side)
+            if (username && password) {
+                document.getElementById('loginSection').style.display = 'none';
+                
+                if (currentUserType === 'student') {
+                    document.getElementById('studentDashboard').style.display = 'block';
+                    document.getElementById('studentName').textContent = username;
+                } else {
+                    document.getElementById('adminDashboard').style.display = 'block';
+                }
+            } else {
+                alert('Please enter both username and password');
+            }
+        }
+
+        function logout() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('studentDashboard').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function showSection(sectionName) {
+            // Hide all student sections
+            document.querySelectorAll('#studentDashboard .section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update nav buttons
+            document.querySelectorAll('#studentDashboard .nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentSection = sectionName;
+        }
+
+        function showAdminSection(sectionName) {
+            // Hide all admin sections
+            document.querySelectorAll('#adminDashboard .section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update nav buttons
+            document.querySelectorAll('#adminDashboard .nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentAdminSection = sectionName;
+        }
+
+        // Student Functions
+        function viewResource(type) {
+            document.getElementById('resourceModal').style.display = 'block';
+        }
+
+        function playVideo(type) {
+            document.getElementById('videoModal').style.display = 'block';
+        }
+
+        function startBreathingExercise() {
+            document.getElementById('breathingModal').style.display = 'block';
+        }
+
+        function startBreathing() {
+            const counter = document.getElementById('breathingCounter');
+            const instructions = document.getElementById('breathingInstructions');
+            breathingPhase = 0;
+            
+            const phases = [
+                { text: 'Inhale through nose', duration: 4, color: '#667eea' },
+                { text: 'Hold your breath', duration: 7, color: '#764ba2' },
+                { text: 'Exhale through mouth', duration: 8, color: '#38a169' }
+            ];
+            
+            function runPhase() {
+                const phase = phases[breathingPhase];
+                instructions.style.background = phase.color;
+                instructions.style.color = 'white';
+                counter.textContent = phase.text;
+                
+                let timeLeft = phase.duration;
+                const phaseInterval = setInterval(() => {
+                    counter.textContent = `${phase.text} - ${timeLeft}`;
+                    timeLeft--;
+                    
+                    if (timeLeft < 0) {
+                        clearInterval(phaseInterval);
+                        breathingPhase = (breathingPhase + 1) % 3;
+                        
+                        if (breathingPhase === 0) {
+                            setTimeout(runPhase, 500);
+                        } else {
+                            runPhase();
+                        }
+                    }
+                }, 1000);
+            }
+            
+            runPhase();
+        }
+
+        function scheduleAppointment() {
+            const therapist = document.getElementById('therapistSelect').value;
+            const date = document.getElementById('appointmentDate').value;
+            const time = document.getElementById('appointmentTime').value;
+            
+            if (therapist === 'Select Therapist' || !date || time === 'Select Time') {
+                alert('Please fill in all appointment details');
+                return;
+            }
+            
+            const appointmentsList = document.getElementById('appointmentsList');
+            const newAppointment = document.createElement('div');
+            newAppointment.className = 'appointment-card';
+            newAppointment.innerHTML = `
+                <h4>${therapist}</h4>
+                <p>📅 ${new Date(date).toLocaleDateString()}, ${time} | 📍 Virtual Session</p>
+                <p>Focus: Initial consultation</p>
+                <button class="btn btn-secondary">Reschedule</button>
+                <button class="btn btn-danger">Cancel</button>
+            `;
+            
+            appointmentsList.appendChild(newAppointment);
+            
+            // Reset form
+            document.getElementById('therapistSelect').value = 'Select Therapist';
+            document.getElementById('appointmentDate').value = '';
+            document.getElementById('appointmentTime').value = 'Select Time';
+            
+            alert('Appointment scheduled successfully!');
+        }
+
+        function joinGroup(groupType) {
+            alert(`Successfully joined ${groupType} support group! You'll receive meeting details via email.`);
+        }
+
+        function recordMood(mood) {
+            const moodEmojis = {
+                'excellent': '😄',
+                'good': '🙂',
+                'okay': '😐',
+                'poor': '😔',
+                'terrible': '😢'
+            };
+            
+            alert(`Mood recorded: ${moodEmojis[mood]} Thank you for tracking your mental health!`);
+        }
+
+        function saveJournalEntry() {
+            const textarea = document.querySelector('#self-help textarea');
+            if (textarea.value.trim()) {
+                alert('Journal entry saved successfully!');
+                textarea.value = '';
+            } else {
+                alert('Please write something in your journal entry.');
+            }
+        }
+
+        function createPost() {
+            const postInput = document.querySelector('#forums .form-inline input');
+            if (postInput.value.trim()) {
+                alert('Post created successfully! Thank you for sharing with the community.');
+                postInput.value = '';
+            } else {
+                alert('Please enter your post content.');
+            }
+        }
+
+        // Admin Functions
+        function addResource() {
+            alert('Resource added successfully!');
+        }
+
+        function editResource() {
+            alert('Opening resource editor...');
+        }
+
+        function deleteResource() {
+            if (confirm('Are you sure you want to delete this resource?')) {
+                alert('Resource deleted successfully!');
+            }
+        }
+
+        function createSupportGroup() {
+            alert('Support group created successfully!');
+        }
+
+        function manageGroup() {
+            alert('Opening group management panel...');
+        }
+
+        function viewSessionDetails() {
+            alert('Opening session details...');
+        }
+
+        function filterSessions() {
+            alert('Filtering sessions...');
+        }
+
+        function searchUsers() {
+            alert('Searching users...');
+        }
+
+        // Modal Functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (breathingInterval) {
+                clearInterval(breathingInterval);
+            }
+        }
+
+        // Crisis Support Functions
+        function openCrisisChat() {
+            alert('Connecting to crisis support chat... A counselor will be with you shortly.');
+        }
+
+        function showCrisisResources() {
+            alert('Crisis Resources:\n\n• National Suicide Prevention Lifeline: 988\n• Crisis Text Line: Text HOME to 741741\n• Emergency Services: 911\n• Campus Crisis Hotline: (555) 123-4567');
+        }
+
+        function showCampusResources() {
+            alert('Campus Resources:\n\n• Student Health Center: Building A, Room 101\n• Counseling Services: Student Union, 2nd Floor\n• Peer Support Center: Library Building, Room 205\n• 24/7 Campus Security: (555) 123-4567');
+        }
+
+        function connectPeerSupport() {
+            alert('Connecting to peer support network... A trained peer counselor will contact you within 30 minutes.');
+        }
+
+        // Registration and Password Reset
+        function showRegistration() {
+            alert('Registration feature would open here. New users can create accounts with email verification.');
+        }
+
+        function showPasswordReset() {
+            alert('Password reset feature would open here. Users can reset passwords via email.');
+        }
+
+        // Additional utility functions
+        function viewProgressReport() {
+            alert('Opening detailed progress report...');
+        }
+
+        function viewMoodHistory() {
+            alert('Opening mood history and analytics...');
+        }
+
+        function viewJournalEntries() {
+            alert('Opening journal entries history...');
+        }
+
+        function startMeditation() {
+            document.getElementById('videoModal').style.display = 'block';
+        }
+
+        function startProgressiveMuscle() {
+            alert('Starting progressive muscle relaxation exercise...');
+        }
+
+        function startGuided() {
+            alert('Starting guided visualization exercise...');
+        }
+
+        function addGoal() {
+            const goalInput = document.querySelector('#self-help .form-inline input');
+            if (goalInput.value.trim()) {
+                alert('Goal added successfully!');
+                goalInput.value = '';
+            }
+        }
+
+        function replyToPost() {
+            alert('Reply feature would open here.');
+        }
+
+        function viewAnalytics() {
+            alert('Opening analytics dashboard...');
+        }
+
+        function viewUserProfile() {
+            alert('Opening user profile...');
+        }
+
+        function sendMessage() {
+            alert('Opening messaging system...');
+        }
+
+        function suspendUser() {
+            if (confirm('Are you sure you want to suspend this user?')) {
+                alert('User suspended successfully.');
+            }
+        }
+
+        function viewSchedule() {
+            alert('Opening schedule view...');
+        }
+
+        function rescheduleSession() {
+            alert('Opening reschedule options...');
+        }
+
+        function cancelSession() {
+            if (confirm('Are you sure you want to cancel this session?')) {
+                alert('Session cancelled successfully.');
+            }
+        }
+
+        function viewGroupAnalytics() {
+            alert('Opening group analytics...');
+        }
+
+        function archiveGroup() {
+            if (confirm('Are you sure you want to archive this group?')) {
+                alert('Group archived successfully.');
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
