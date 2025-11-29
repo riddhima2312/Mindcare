@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mental Health Support Platform</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f4f4f9;
+    }
+    header {
+      background: #4a90e2;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #333;
+    }
+    nav a {
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      display: block;
+    }
+    nav a:hover {
+      background: #575757;
+    }
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .hidden {
+      display: none;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #357abd;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      box-sizing: border-box;
+    }
+    .forum-post {
+      background: white;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Mental Health Support Platform</h1>
+</header>
+
+<nav>
+  <a href="#" onclick="showSection('resources')">Resources</a>
+  <a href="#" onclick="showSection('therapy')">Therapy Sessions</a>
+  <a href="#" onclick="showSection('support')">Support Groups</a>
+  <a href="#" onclick="showSection('admin')" id="adminNav" style="display:none;">Admin</a>
+</nav>
+
+<div class="container">
+  <!-- Resources Section -->
+  <section id="resources">
+    <h2>Mental Health Resources</h2>
+    <p>Find articles, videos, and self-help tools here.</p>
+    <ul>
+      <li><a href="#" target="_blank">5 Tips for Stress Management</a></li>
+      <li><a href="#" target="_blank">Guided Meditation Video</a></li>
+      <li><a href="#" target="_blank">Anxiety Self-Help Guide</a></li>
+    </ul>
+  </section>
+
+  <!-- Therapy Section -->
+  <section id="therapy" class="hidden">
+    <h2>Schedule Therapy Sessions</h2>
+    <p>Reserve a virtual therapy session with a counselor.</p>
+    <form id="therapyForm">
+      <label for="date">Select Date:</label>
+      <input type="date" id="date" required />
+      <label for="time">Select Time:</label>
+      <input type="time" id="time" required />
+      <button type="submit">Book Session</button>
+    </form>
+    <div id="therapyMessage"></div>
+  </section>
+
+  <!-- Support Groups Section -->
+  <section id="support" class="hidden">
+    <h2>Support Groups Forum</h2>
+    <p>Share your thoughts and support peers.</p>
+    <form id="forumForm">
+      <textarea id="postText" rows="3" placeholder="Write a post..." required></textarea>
+      <button type="submit">Post</button>
+    </form>
+    <div id="forumPosts"></div>
+  </section>
+
+  <!-- Admin Section -->
+  <section id="admin" class="hidden">
+    <h2>Admin Panel</h2>
+    <p>Manage resources and counseling sessions.</p>
+    <form id="resourceForm">
+      <label for="resourceTitle">New Resource Title:</label>
+      <input type="text" id="resourceTitle" required />
+      <label for="resourceLink">Resource Link:</label>
+      <input type="url" id="resourceLink" required />
+      <button type="submit">Add Resource</button>
+    </form>
+    <ul id="resourceList"></ul>
+  </section>
+</div>
+
+<script>
+  // Simulate user role, change to 'admin' to show admin section
+  const userRole = 'student';
+
+  // Show or hide admin nav link based on role
+  if (userRole === 'admin') {
+    document.getElementById('adminNav').style.display = 'block';
+  }
+
+  // Function to show sections
+  function showSection(id) {
+    const sections = ['resources', 'therapy', 'support', 'admin'];
+    sections.forEach(section => {
+      document.getElementById(section).classList.add('hidden');
+    });
+    if (id === 'admin' && userRole !== 'admin') {
+      alert('Access denied. Admins only.');
+      return;
+    }
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  // Therapy session booking
+  document.getElementById('therapyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+    if (date && time) {
+      document.getElementById('therapyMessage').innerText = `Therapy session booked for ${date} at ${time}.`;
+      this.reset();
+    }
+  });
+
+  // Forum posts
+  document.getElementById('forumForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const postText = document.getElementById('postText').value;
+    if (postText) {
+      const postDiv = document.createElement('div');
+      postDiv.className = 'forum-post';
+      postDiv.textContent = postText;
+      document.getElementById('forumPosts').prepend(postDiv);
+      this.reset();
+    }
+  });
+
+  // Admin: add new resource
+  document.getElementById('resourceForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const title = document.getElementById('resourceTitle').value;
+    const link = document.getElementById('resourceLink').value;
+    if (title && link) {
+      const listItem = document.createElement('li');
+      const anchor = document.createElement('a');
+      anchor.href = link;
+      anchor.target = '_blank';
+      anchor.textContent = title;
+      listItem.appendChild(anchor);
+      document.getElementById('resourceList').appendChild(listItem);
+      this.reset();
+    }
+  });
+</script>
+
+</body>
+</html>

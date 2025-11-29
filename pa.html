@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Temple Prototype - Short Version</title>
+<style>
+body{font-family:Arial,sans-serif;background:#fff8f2;margin:0;padding:0;color:#111;}
+header{background:#b85a08;color:white;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+header .brand{font-weight:bold;font-size:18px;}
+header .contact{font-size:14px;}
+.container{padding:16px;max-width:1000px;margin:auto;}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.controls select,input{padding:8px;border-radius:6px;border:1px solid #ccc;}
+.controls button{padding:8px 12px;border-radius:6px;border:none;background:#b85a08;color:white;cursor:pointer;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+.card{background:white;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.08);padding:10px;display:flex;flex-direction:column;}
+.card img{width:100%;height:150px;object-fit:cover;border-radius:6px;}
+.card .title{font-weight:bold;margin-top:8px;color:#b85a08;}
+.card .meta{font-size:12px;color:#666;}
+.card .desc{font-size:13px;color:#333;margin:6px 0;}
+.card button{margin-top:auto;padding:6px 10px;border:none;background:#b85a08;color:white;border-radius:6px;cursor:pointer;}
+.toast{position:fixed;top:80px;right:20px;background:#052a2a;color:white;padding:10px 14px;border-radius:6px;display:none;z-index:1000;}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Temple Prototype</div>
+  <div class="contact">Contact: 000 0000000</div>
+</header>
+<main class="container">
+  <div class="controls">
+    <input type="text" id="searchBox" placeholder="Search temple...">
+    <select id="stateSelect"><option value="">Select State</option></select>
+    <select id="citySelect"><option value="">Select City</option></select>
+    <button id="searchBtn">Search</button>
+  </div>
+  <div class="grid" id="templesGrid"></div>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+// Demo 6 temples only, linked to 4 states & cities
+const temples=[
+  {id:'t1',name:'Tirumala Venkateswara',state:'Andhra Pradesh',city:'Tirupati',img:'https://upload.wikimedia.org/wikipedia/commons/5/53/Tirumala_Temple_2010.jpg',desc:'Famous hill-temple of Lord Venkateswara.'},
+  {id:'t2',name:'Vaishno Devi',state:'Jammu & Kashmir',city:'Katra',img:'https://upload.wikimedia.org/wikipedia/commons/1/17/Vaishno_Devi_Temple.jpg',desc:'Himalayan shrine dedicated to the Goddess Vaishno Devi.'},
+  {id:'t3',name:'Jagannath Temple',state:'Odisha',city:'Puri',img:'https://upload.wikimedia.org/wikipedia/commons/4/4e/Jagannath_Temple_Puri.JPG',desc:'Famous for Rath Yatra and Mahaprasad.'},
+  {id:'t4',name:'Meenakshi Amman',state:'Tamil Nadu',city:'Madurai',img:'https://upload.wikimedia.org/wikipedia/commons/1/1a/Meenakshi_Temple_2011.jpg',desc:'Colorful Dravidian-style temple complex.'},
+  {id:'t5',name:'Somnath',state:'Gujarat',city:'Veraval',img:'https://upload.wikimedia.org/wikipedia/commons/5/51/Somnath_Temple.jpg',desc:'One of the twelve Jyotirlinga temples of Lord Shiva.'},
+  {id:'t6',name:'Dwarkadhish',state:'Gujarat',city:'Dwarka',img:'https://upload.wikimedia.org/wikipedia/commons/6/6f/Dwarkadhish_Temple.jpg',desc:'Ancient Krishna temple in Dwarka.'}
+];
+
+// Only 4 states with cities
+const stateCityMap={
+  "Andhra Pradesh":["Tirupati","Vijayawada"],
+  "Jammu & Kashmir":["Katra","Srinagar"],
+  "Odisha":["Puri","Bhubaneswar"],
+  "Gujarat":["Veraval","Dwarka"]
+};
+
+const stateSelect=document.getElementById('stateSelect');
+const citySelect=document.getElementById('citySelect');
+const templesGrid=document.getElementById('templesGrid');
+const searchBox=document.getElementById('searchBox');
+const toast=document.getElementById('toast');
+
+function populateStates(){
+  Object.keys(stateCityMap).forEach(s=>{
+    const o=document.createElement('option'); 
+    o.value=s; 
+    o.textContent=s; 
+    stateSelect.appendChild(o);
+  });
+  populateCities();
+}
+
+function populateCities(){
+  const s=stateSelect.value;
+  citySelect.innerHTML='<option value="">Select City</option>';
+  if(!s)return;
+  stateCityMap[s].forEach(c=>{
+    const o=document.createElement('option'); 
+    o.value=c; 
+    o.textContent=c; 
+    citySelect.appendChild(o); 
+  });
+}
+
+function renderTemples(){
+  const q=(searchBox.value||'').toLowerCase();
+  const s=stateSelect.value;
+  const c=citySelect.value;
+  templesGrid.innerHTML='';
+  const list=temples.filter(t=>{
+    return (!q||t.name.toLowerCase().includes(q))
+      && (!s||t.state===s)
+      && (!c||t.city===c);
+  });
+  if(list.length===0){ 
+    templesGrid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#666">No temples found</div>'; 
+    return; 
+  }
+  list.forEach(t=>{
+    const div=document.createElement('div'); 
+    div.className='card';
+    div.innerHTML=`
+      <img src="${t.img}" alt="${t.name}">
+      <div class="title">${t.name}</div>
+      <div class="meta">${t.city}, ${t.state}</div>
+      <div class="desc">${t.desc}</div>
+      <button onclick="showToast('Order feature not implemented in prototype')">Order</button>
+    `;
+    templesGrid.appendChild(div);
+  });
+}
+
+function showToast(msg,ttl=2000){ 
+  toast.textContent=msg; 
+  toast.style.display='block'; 
+  setTimeout(()=>toast.style.display='none',ttl); 
+}
+
+stateSelect.addEventListener('change',()=>{ populateCities(); renderTemples(); });
+citySelect.addEventListener('change',renderTemples);
+document.getElementById('searchBtn').addEventListener('click',renderTemples);
+searchBox.addEventListener('keydown',e=>{ if(e.key==='Enter') renderTemples(); });
+
+populateStates(); 
+renderTemples();
+</script>
+</body>
+</html>

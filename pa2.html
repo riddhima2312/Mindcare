@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕉 Divine Prasadam - Sacred Food Delivery</title>
+    <meta name="description" content="Order authentic prasadam from 200+ sacred temples across India. Fresh temple food delivery with divine blessings.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --------- CSS START --------- */
+        :root { --primary:#FF6B35; --secondary:#FFC107; --bg-primary:#0A0A1A; --bg-secondary:#1A1A2E; --text-light:#fff; --text-muted:#A0A0A0; --shadow-lg:0 20px 60px rgba(0,0,0,0.2); --transition:all 0.3s cubic-bezier(0.4,0,0.2,1); }
+        *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'Poppins',sans-serif; background:var(--bg-primary); color:var(--text-light);}
+        a{text-decoration:none; color:inherit;} ul{list-style:none;}
+        .header{position:fixed;top:0;width:100%;padding:1rem; background:rgba(10,10,26,0.95); display:flex; justify-content:space-between; align-items:center; z-index:1000;}
+        .logo{font-weight:800;font-size:1.5rem;} .nav-menu{display:flex; gap:2rem;} .nav-menu a{font-weight:600; transition:var(--transition);} .nav-menu a:hover{color:var(--primary);}
+        .hero{height:80vh; display:flex; justify-content:center; align-items:center; text-align:center; padding:0 2rem;}
+        .hero h1{font-family:'Playfair Display', serif; font-size:3rem; background:linear-gradient(135deg,#fff,#FF6B35,#FFC107); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+        .temples-section{padding:4rem 2rem;} .section-title{text-align:center; font-family:'Playfair Display',serif; font-size:2.5rem; margin-bottom:3rem; background:linear-gradient(135deg,#fff,#FF6B35,#FFC107); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+        .temples-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem;}
+        .temple-card{background:var(--bg-secondary); border-radius:15px; overflow:hidden; transition:var(--transition); box-shadow:var(--shadow-lg);}
+        .temple-card:hover{transform:translateY(-5px);}
+        .temple-image{height:150px; display:flex; align-items:center; justify-content:center; font-size:2rem; background:var(--primary); color:#fff;}
+        .temple-info{padding:1rem;} .temple-name{font-family:'Playfair Display', serif; font-weight:700; color:var(--secondary); margin-bottom:0.5rem;}
+        .prasadam-item{display:flex; justify-content:space-between; align-items:center; padding:0.5rem; background:rgba(255,255,255,0.05); margin-bottom:0.5rem; border-radius:10px;}
+        .add-to-cart-btn{background:var(--primary); color:#fff; border:none; padding:0.3rem 0.5rem; border-radius:8px; cursor:pointer;}
+        /* --------- CSS END --------- */
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">🕉 Divine Prasadam</div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#temples">Temples</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div>
+            <h1>Order Prasadam from 200+ Temples Across India</h1>
+            <p>Fresh, divine, and delivered with blessings.</p>
+        </div>
+    </section>
+
+    <!-- Temples Section -->
+    <section class="temples-section" id="temples">
+        <h2 class="section-title">Explore Temples & Prasadam</h2>
+        <div class="temples-grid" id="templesGrid">
+            <!-- 200 Temple Cards Will Be Injected Here -->
+        </div>
+    </section>
+
+    <script>
+        // --------- JS START ---------
+        const templesGrid = document.getElementById('templesGrid');
+
+        const templesData = [
+            {id:1,name:"Tirupati Venkateswara Temple",location:"Tirumala, Andhra Pradesh",description:"World-famous temple dedicated to Lord Venkateswara.",dropshipping:true,image:"assets/images/temples/venkateswara.jpg"},
+            {id:2,name:"Shirdi Sai Baba Temple",location:"Shirdi, Maharashtra",description:"Shrine of Sai Baba attracting devotees worldwide.",dropshipping:true,image:"assets/images/temples/shirdi_sai_baba.jpg"},
+            {id:3,name:"Vaishno Devi Temple",location:"Katra, Jammu & Kashmir",description:"Sacred shrine dedicated to Goddess Vaishno Devi.",dropshipping:false,image:"assets/images/temples/vaishno_devi.jpg"},
+            {id:4,name:"Jagannath Temple",location:"Puri, Odisha",description:"Famous temple dedicated to Lord Jagannath, part of Char Dham.",dropshipping:true,image:"assets/images/temples/jagannath.jpg"},
+            {id:5,name:"Konark Sun Temple",location:"Konark, Odisha",description:"Iconic Sun temple with chariot-shaped architecture.",dropshipping:false,image:"assets/images/temples/konark_sun.jpg"},
+            {id:6,name:"Ranganathaswamy Temple",location:"Srirangam, Tamil Nadu",description:"Large temple dedicated to Lord Ranganatha.",dropshipping:true,image:"assets/images/temples/ranganathaswamy.jpg"},
+            {id:7,name:"Kedarnath Temple",location:"Uttarakhand",description:"Himalayan temple dedicated to Lord Shiva, part of Char Dham.",dropshipping:false,image:"assets/images/temples/kedarnath.jpg"},
+            {id:8,name:"Badrinath Temple",location:"Badrinath, Uttarakhand",description:"Dedicated to Lord Vishnu, part of Char Dham pilgrimage.",dropshipping:true,image:"assets/images/temples/badrinath.jpg"},
+            {id:9,name:"Dwarkadhish Temple",location:"Dwarka, Gujarat",description:"Major pilgrimage site dedicated to Lord Krishna.",dropshipping:true,image:"assets/images/temples/dwarkadhish.jpg"},
+            {id:10,name:"Somnath Temple",location:"Gujarat",description:"Legendary Shiva temple rebuilt after multiple invasions.",dropshipping:true,image:"assets/images/temples/somnath.jpg"},
+            {id:11,name:"Kashi Vishwanath Temple",location:"Varanasi, Uttar Pradesh",description:"One of the most revered Shiva temples in India.",dropshipping:true,image:"assets/images/temples/vishwanath.jpg"},
+            {id:12,name:"Mahakaleshwar Temple",location:"Ujjain, Madhya Pradesh",description:"One of the 12 Jyotirlingas of Lord Shiva.",dropshipping:true,image:"assets/images/temples/mahakaleshwar.jpg"},
+            {id:13,name:"Chidambaram Nataraja Temple",location:"Chidambaram, Tamil Nadu",description:"Dedicated to Lord Shiva as Nataraja, Lord of Dance.",dropshipping:true,image:"assets/images/temples/chidambaram.jpg"},
+            {id:14,name:"Meenakshi Amman Temple",location:"Madurai, Tamil Nadu",description:"Famous temple dedicated to Goddess Meenakshi and Lord Sundareswarar.",dropshipping:true,image:"assets/images/temples/meenakshi_amman.jpg"},
+            {id:15,name:"Brihadeeswarar Temple",location:"Thanjavur, Tamil Nadu",description:"UNESCO World Heritage site, dedicated to Lord Shiva.",dropshipping:true,image:"assets/images/temples/brihadeeswarar.jpg"},
+            {id:16,name:"Virupaksha Temple",location:"Hampi, Karnataka",description:"Part of UNESCO World Heritage site, dedicated to Lord Shiva.",dropshipping:false,image:"assets/images/temples/virupaksha.jpg"},
+            {id:17,name:"Chamundeshwari Temple",location:"Mysore, Karnataka",description:"Hilltop temple dedicated to Goddess Chamundeshwari.",dropshipping:false,image:"assets/images/temples/chamundeshwari.jpg"},
+            {id:18,name:"Mookambika Temple",location:"Kollur, Karnataka",description:"South Indian temple dedicated to Goddess Mookambika.",dropshipping:true,image:"assets/images/temples/mookambika.jpg"},
+            {id:19,name:"Murudeshwar Temple",location:"Karnataka",description:"Famous for huge Shiva statue and Arabian Sea backdrop.",dropshipping:false,image:"assets/images/temples/murudeshwar.jpg"},
+            {id:20,name:"Kukke Subramanya Temple",location:"Karnataka",description:"Dedicated to Lord Subramanya, famous for rituals to remove curses.",dropshipping:true,image:"assets/images/temples/kukke_subramanya.jpg"},
+            {id:21,name:"Thiruvannamalai Annamalaiyar Temple",location:"Thiruvannamalai, Tamil Nadu",description:"Famous hill temple of Lord Shiva, known for Girivalam festival.",dropshipping:true,image:"assets/images/temples/annamalaiyar.jpg"},
+            {id:22,name:"Sree Padmanabhaswamy Temple",location:"Thiruvananthapuram, Kerala",description:"Famous for its wealth, dedicated to Lord Vishnu.",dropshipping:true,image:"assets/images/temples/padmanabhaswamy.jpg"},
+            {id:23,name:"Guruvayur Temple",location:"Guruvayur, Kerala",description:"Popular temple dedicated to Lord Krishna in Kerala.",dropshipping:true,image:"assets/images/temples/guruvayur.jpg"},
+            {id:24,name:"Vaikom Mahadeva Temple",location:"Vaikom, Kerala",description:"Famous Shiva temple in Kerala with historical significance.",dropshipping:true,image:"assets/images/temples/vaikom.jpg"},
+            {id:25,name:"Chottanikkara Temple",location:"Ernakulam, Kerala",description:"Temple dedicated to Goddess Bhagavathi, famous for rituals and healing.",dropshipping:true,image:"assets/images/temples/chottanikkara.jpg"},
+            {id:26,name:"Sabarimala Ayyappa Temple",location:"Pathanamthitta, Kerala",description:"One of India’s most famous pilgrimage sites dedicated to Lord Ayyappa.",dropshipping:false,image:"assets/images/temples/sabarimala.jpg"},
+            {id:27,name:"Attukal Bhagavathy Temple",location:"Thiruvananthapuram, Kerala",description:"Famous temple known for the annual Attukal Pongala festival.",dropshipping:true,image:"assets/images/temples/attukal.jpg"},
+            {id:28,name:"Hoysaleswara Temple",location:"Halebidu, Karnataka",description:"Famous for Hoysala-style architecture and carvings.",dropshipping:false,image:"assets/images/temples/hoysaleswara.jpg"},
+            {id:29,name:"Kalahasti Temple",location:"Andhra Pradesh",description:"Famous for Vayu Linga, part of Pancha Bhoota Stalas.",dropshipping:true,image:"assets/images/temples/kalahasti.jpg"},
+            {id:30,name:"Mallikarjuna Temple",location:"Srisailam, Andhra Pradesh",description:"One of the 12 Jyotirlingas dedicated to Lord Shiva.",dropshipping:true,image:"assets/images/temples/mallikarjuna.jpg"},
+            {id:151,name:"Jagannath Temple",location:"Puri, Odisha",description:"Famous temple dedicated to Lord Jagannath, part of Char Dham.",dropshipping:true,image:"assets/images/temples/jagannath.jpg"},
+            {id:152,name:"Konark Sun Temple",location:"Konark, Odisha",description:"Iconic Sun temple with chariot-shaped architecture.",dropshipping:false,image:"assets/images/temples/konark_sun.jpg"},
+            {id:153,name:"Ranganathaswamy Temple",location:"Srirangam, Tamil Nadu",description:"Large temple dedicated to Lord Ranganatha.",dropshipping:true,image:"assets/images/temples/ranganathaswamy.jpg"},
+            {id:154,name:"Kedarnath Temple",location:"Uttarakhand",description:"Himalayan temple dedicated to Lord Shiva.",dropshipping:false,image:"assets/images/temples/kedarnath.jpg"},
+            {id:155,name:"Badrinath Temple",location:"Uttarakhand",description:"Dedicated to Lord Vishnu, part of Char Dham.",dropshipping:true,image:"assets/images/temples/badrinath.jpg"},
+            {id:156,name:"Dwarkadhish Temple",location:"Dwarka, Gujarat",description:"Major pilgrimage site dedicated to Lord Krishna.",dropshipping:true,image:"assets/images/temples/dwarkadhish.jpg"},
+            {id:157,name:"Somnath Temple",location:"Gujarat",description:"Legendary Shiva temple, rebuilt multiple times.",dropshipping:true,image:"assets/images/temples/somnath.jpg"},
+            {id:158,name:"Vaishno Devi Temple",location:"Katra, Jammu & Kashmir",description:"Sacred shrine dedicated to Goddess Vaishno Devi.",dropshipping:false,image:"assets/images/temples/vaishno_devi.jpg"},
+            {id:159,name:"Shirdi Sai Baba Temple",location:"Shirdi, Maharashtra",description:"Shrine of Sai Baba, attracting devotees worldwide.",dropshipping:true,image:"assets/images/temples/shirdi_sai_baba.jpg"},
+            {id:160,name:"Tirupati Venkateswara Temple",location:"Tirumala, Andhra Pradesh",description:"Iconic temple dedicated to Lord Venkateswara.",dropshipping:true,image:"assets/images/temples/venkateswara.jpg"},
+            {id:161,name:"Meenakshi Amman Temple",location:"Madurai, Tamil Nadu",description:"Dedicated to Goddess Meenakshi and Lord Sundareswarar.",dropshipping:true,image:"assets/images/temples/meenakshi_amman.jpg"},
+            {id:162,name:"Virupaksha Temple",location:"Hampi, Karnataka",description:"Part of UNESCO World Heritage site, dedicated to Lord Shiva.",dropshipping:false,image:"assets/images/temples/virupaksha.jpg"},
+            {id:163,name:"Brihadeeswarar Temple",location:"Thanjavur, Tamil Nadu",description:"UNESCO World Heritage site, dedicated to Lord Shiva.",dropshipping:true,image:"assets/images/temples/brihadeeswarar.jpg"},
+            {id:164,name:"Mahakaleshwar Temple",location:"Ujjain, Madhya Pradesh",description:"One of the 12 Jyotirlingas of Lord Shiva.",dropshipping:true,image:"assets/images/temples/mahakaleshwar.jpg"},
+            {id:165,name:"Saptashrungi Temple",location:"Vani, Maharashtra",description:"Hilltop temple dedicated to Goddess Saptashrungi.",dropshipping:false,image:"assets/images/temples/saptashrungi.jpg"},
+            {id:166,name:"Kailasa Temple",location:"Ellora Caves, Maharashtra",description:"Monolithic temple dedicated to Lord Shiva.",dropshipping:false,image:"assets/images/temples/kailasa.jpg"},
+            {id:167,name:"Shirdi Sai Baba Temple",location:"Shirdi, Maharashtra",description:"Famous Sai Baba temple with prasadam.",dropshipping:true,image:"assets/images/temples/shirdi_sai_baba.jpg"},
+            {id:168,name:"Kanchipuram Temples",location:"Kanchipuram, Tamil Nadu",description:"City of Thousand Temples including Ekambareswarar.",dropshipping:false,image:"assets/images/temples/kanchipuram.jpg"},
+            {id:169,name:"Annamalaiyar Temple",location:"Thiruvannamalai, Tamil Nadu",description:"Dedicated to Lord Shiva with huge gopuram.",dropshipping:true,image:"assets/images/temples/annamalaiyar.jpg"},
+            {id:170,name:"Chamundeshwari Temple",location:"Mysore, Karnataka",description:"Dedicated to Goddess Chamundeshwari atop Chamundi Hill.",dropshipping:false,image:"assets/images/temples/chamundeshwari.jpg"},
+            {id:171,name:"Someshwar Temple",location:"Madikeri, Karnataka",description:"Hill temple dedicated to Lord Shiva.",dropshipping:true,image:"assets/images/temples/someshwar.jpg"},
+            {id:172,name:"Lingaraja Temple",location:"Bhubaneswar, Odisha",description:"Historic Shiva temple with stunning Kalinga architecture.",dropshipping:false,image:"assets/images/temples/lingaraja.jpg"},
+            {id:173,name:"Konark Sun Temple",location:"Konark, Odisha",description:"Famous for chariot-shaped architecture.",dropshipping:false,image:"assets/images/temples/konark_sun.jpg"},
+            {id:174,name:"Jagadamba Temple",location:"Goa",description:"Dedicated to Goddess Jagadamba.",dropshipping:true,image:"assets/images/temples/jagadamba.jpg"},
+            {id:175,name:"Bhuvaneshwari Temple",location:"Kanchipuram, Tamil Nadu",description:"Temple dedicated to Goddess Bhuvaneshwari.",dropshipping:false,image:"assets/images/temples/bhuvaneshwari.jpg"},
+            {id:176,name:"Vaitheeswaran Koil",location:"Tamil Nadu",description:"Famous Shiva temple with healing rituals.",dropshipping:true,image:"assets/images/temples/vaitheeswaran.jpg"},
+            {id:177,name:"Rameswaram Temple",location:"Rameswaram, Tamil Nadu",description:"Part of Char Dham, dedicated to Lord Shiva.",dropshipping:true,image:"assets/images/temples/rameswaram.jpg"},
+            {id:178,name:"Hoysaleswara Temple",location:"Halebidu, Karnataka",description:"Famous for Hoysala-style architecture.",dropshipping:false,image:"assets/images/temples/hoysaleswara.jpg"},
+            {id:179,name:"Chidambaram Nataraja Temple",location:"Chidambaram, Tamil Nadu",description:"Dedicated to Lord Shiva as Nataraja.",dropshipping:true,image:"assets/images/temples/chidambaram.jpg"},
+            {id:180,name:"Ekambareswarar Temple",location:"Kanchipuram, Tamil Nadu",description:"One of Pancha Bhoota Stalas.",dropshipping:true,image:"assets/images/temples/ekambareswarar.jpg"},
+            {id:181,name:"Kalahasti Temple",location:"Andhra Pradesh",description:"Famous for Vayu Linga.",dropshipping:true,image:"assets/images/temples/kalahasti.jpg"},
+            {id:182,name:"Mallikarjuna Temple",location:"Srisailam, Andhra Pradesh",description:"One of the 12 Jyotirlingas.",dropshipping:true,image:"assets/images/temples/mallikarjuna.jpg"},
+            {id:183,name:"Amarnath Temple",location:"Jammu & Kashmir",description:"Cave temple dedicated to Lord Shiva.",dropshipping:true,image:"assets/images/temples/amarnath.jpg"},
+            {id:184,name:"Bhadrakali Temple",location:"Warangal, Telangana",description:"Dedicated to Goddess Bhadrakali.",dropshipping:false,image:"assets/images/temples/bhadrakali.jpg"},
+            {id:185,name:"Kasi Viswanathar Temple",location:"Kumbakonam, Tamil Nadu",description:"Famous Shiva temple.",dropshipping:true,image:"assets/images/temples/kasi_viswanathar.jpg"},
+            {id:186,name:"Bhadrachalam Temple",location:"Telangana",description:"Temple dedicated to Lord Rama.",dropshipping:true,image:"assets/images/temples/bhadrachalam.jpg"},
+            {id:187,name:"Ujjain Mahakaleshwar Temple",location:"Ujjain, Madhya Pradesh",description:"Famous for Bhasma Aarti.",dropshipping:true,image:"assets/images/temples/ujjain_mahakaleshwar.jpg"},
+            {id:188,name:"Annamalaiyar Temple",location:"Thiruvannamalai, Tamil Nadu",description:"Hill temple of Lord Shiva.",dropshipping:true,image:"assets/images/temples/annamalaiyar.jpg"},
+            {id:189,name:"Kamakshi Amman Temple",location:"Kanchipuram, Tamil Nadu",description:"Dedicated to Goddess Kamakshi.",dropshipping:true,image:"assets/images/temples/kamakshi.jpg"},
+            {id:190,name:"Sringeri Sharada Peetham",location:"Sringeri, Karnataka",description:"Monastery and temple dedicated to Goddess Sharada.",dropshipping:false,image:"assets/images/temples/sringeri.jpg"},
+            {id:191,name:"Chaturbhuj Temple",location:"Orchha, Madhya Pradesh",description:"Dedicated to Lord Vishnu.",dropshipping:false,image:"assets/images/temples/chaturbhuj.jpg"},
+            {id:192,name:"Jagadamba Temple",location:"Goa",description:"Dedicated to Goddess Jagadamba.",dropshipping:true,image:"assets/images/temples/jagadamba.jpg"},
+            {id:193,name:"Mahalakshmi Temple",location:"Kolhapur, Maharashtra",description:"Dedicated to Goddess Mahalakshmi.",dropshipping:true,image:"assets/images/temples/mahalakshmi_kolhapur.jpg"},
+            {id:194,name:"Vishwanath Temple",location:"Banaras, Uttar Pradesh",description:"Revered Shiva temple.",dropshipping:true,image:"assets/images/temples/vishwanath.jpg"},
+            {id:195,name:"Somnath Temple",location:"Gujarat",description:"Legendary Shiva temple.",dropshipping:true,image:"assets/images/temples/somnath.jpg"},
+            {id:196,name:"Dwarkadhish Temple",location:"Dwarka, Gujarat",description:"Major Krishna temple.",dropshipping:true,image:"assets/images/temples/dwarkadhish.jpg"},
+            {id:197,name:"Vaishno Devi Temple",location:"Katra, Jammu & Kashmir",description:"Shrine of Goddess Vaishno Devi.",dropshipping:false,image:"assets/images/temples/vaishno_devi.jpg"},
+            {id:198,name:"Shirdi Sai Baba Temple",location:"Shirdi, Maharashtra",description:"Sai Baba shrine.",dropshipping:true,image:"assets/images/temples/shirdi_sai_baba.jpg"},
+            {id:199,name:"Tirupati Balaji Temple",location:"Tirumala, Andhra Pradesh",description:"Famous Venkateswara temple.",dropshipping:true,image:"assets/images/temples/venkateswara.jpg"},
+            {id:200,name:"Meenakshi Amman Temple",location:"Madurai, Tamil Nadu",description:"Temple of Goddess Meenakshi.",dropshipping:true,image:"assets/images/temples/meenakshi_amman.jpg"}
+        ];
+
+        templesData.forEach(temple=>{
+            const card = document.createElement('div');
+            card.className='temple-card';
+            card.innerHTML=`
+                <div class="temple-image"><img src="${temple.image}" alt="${temple.name}" style="width:100%;height:150px;object-fit:cover;"></div>
+                <div class="temple-info">
+                    <div class="temple-name">${temple.name}</div>
+                    <div class="temple-location">${temple.location}</div>
+                    <p>${temple.description}</p>
+                    <div class="prasadam-item">
+                        <span>Prasadam 1</span>
+                        <button class="add-to-cart-btn">Add</button>
+                    </div>
+                    <div class="prasadam-item">
+                        <span>Prasadam 2</span>
+                        <button class="add-to-cart-btn">Add</button>
+                    </div>
+                </div>`;
+            templesGrid.appendChild(card);
+        });
+        // --------- JS END ---------
+    </script>
+</body>
+</html>
